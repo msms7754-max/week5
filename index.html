@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+</head>
+
+<body style="font-family: 'Noto Sans KR', sans-serif; text-align: center; margin-top: 50px;">
+
+  <h1>⌨️ 타자 속도 측정기</h1>
+
+  <p id="sentence" style="font-size:20px; margin-bottom:20px; color:#333;">
+    I study at Seoul National University of Science and Technology.
+  </p>
+
+  <input type="text" id="user-input" placeholder="시작 버튼을 누르고 입력한뒤 종료 버튼을 눌러주세요."
+         style="width:400px; height:40px; font-size:18px;">
+  <br><br>
+
+  <button onclick="startTest()">시작</button>
+  <button onclick="endTest()">종료</button>
+
+  <p id="result" style="margin-top:20px; font-size:18px; font-weight:bold;"></p>
+
+  <script>
+    let start, end;
+
+    function rightsentence(){
+      const raw = document.getElementById("sentence").textContent;
+      return raw.trim().replace(/\s+/g, ' ');
+    }
+
+    function startTest(){
+      const input = document.getElementById("user-input");
+      input.value = "";
+      input.disabled = false;
+      input.focus();
+      start = new Date().getTime();
+      document.getElementById("result").textContent = "타자를 시작하세요!";
+    }
+
+    function endTest(){
+      end = new Date().getTime();
+      const totalTime = (end - start) / 1000;
+
+      const target = rightsentence();
+      const inputText = document.getElementById("user-input").value.trim().replace(/\s+/g, ' ');
+
+      if(inputText === target){
+        const taja = inputText.replace(/\s/g, '').length / totalTime * 60;
+        document.getElementById("result").textContent =
+          "⏱️ 걸린 시간: " + totalTime.toFixed(2) + "초, 속도: " + Math.round(taja) + "타";
+      }else{
+        document.getElementById("result").textContent =
+          "❌ 문장이 정확하지 않습니다. 다시 입력해주세요.";
+      }
+    }
+  </script>
+</body>
+</html>
